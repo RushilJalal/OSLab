@@ -1,0 +1,5 @@
+grep -E "^.{2}$" fruitlist.txt
+grep -E "^[A-Z]" fruitlist.txt
+grep -E "\.$" fruitlist.txt
+grep -E " " fruitlist.txt
+grep -E "[0-9]" fruitlist.txt > a.txt

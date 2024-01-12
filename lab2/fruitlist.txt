@@ -1,0 +1,30 @@
+220911006
+220911430
+cl1
+cli2
+client1
+Desktop
+Documents
+Downloads
+Music
+OS lab2 documents Please share.zip
+OS LAB MANUAL.pdf
+Pictures
+Public
+Q1_client.c
+Q1_servers.c
+Q2_client (1).c
+Q2_server.c
+s1
+Sample1.c
+sampleprograms
+sampleprograms.zip
+serv1
+serv2
+server1
+snap
+srv1
+Templates
+unix_tutorial.pdf
+Videos
+SUSu
