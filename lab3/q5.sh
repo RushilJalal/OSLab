@@ -15,5 +15,3 @@ do
 cp -v "$file" "$folder/"
 echo "copied $file to $folder"
 done
-
-echo "Done"
