@@ -1,0 +1,7 @@
+echo "how are you?"
+read ans
+if "$ans" = "good"]; then
+echo "very nice"
+else
+echo "not very nice"
+fi
