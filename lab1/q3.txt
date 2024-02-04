@@ -1,0 +1,14 @@
+find "$(pwd)" -type f -name "*.txt"
+
+find "$(pwd)" -type f -name "*[0-9]*"
+
+find "$(pwd)" -type f -name "????*"
+
+find "$(pwd)" -type f | grep -E -v '/[AEIOUaeiou][^/]*$'
+-E - used for regex
+-v - inverts the search results
+
+Combined command: 
+find /path/to/search -type f -name "*.txt" | grep -E -v '/[aeiouAEIOU][^/]*$' | grep -E '[0-9]' | grep -E '^.{4,}$'
+
+
