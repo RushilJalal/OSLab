@@ -1,0 +1,68 @@
+$date
+Thu Jun 25 08:30:19 MST 2009
+
+ls
+//lists all files in the current directory
+AppData/
+'Application Data'@
+ Contacts/
+ Cookies@
+ Desktop/
+ Documents/
+ Downloads/
+
+ls -l
+-rw-r--r-- 1 Rushil Jalal 197121     6889 Oct 13  2021  -1.14-windows.xml
+drwxr-xr-x 1 Rushil Jalal 197121        0 Jan 17  2022  AppData/
+lrwxrwxrwx 1 Rushil Jalal 197121       37 Jul  1  2021 'Application Data' -> '/c/Users/Farhat Jalal/AppData/Roaming'/
+
+man ls
+cd: cd [-L|[-P [-e]] [-@]] [dir]
+    Change the shell working directory.
+
+$ pwd
+/c/Users/Farhat Jalal
+
+cd ~ //jumps to home
+cd .. //jumps to parent dir
+
+touch a.txt //creates a.txt
+
+$ file a.txt
+a.txt: ASCII text
+
+cat a.txt
+hello world
+
+head a.txt
+hello world
+
+tail a.txt
+hello world
+
+cp mp3files.txt /tmp (copies the mp3files.txt file to the /tmp directory)
+
+mv mp3files.txt /tmp (copy the file to /tmp, and delete it from the original location)
+
+rm: Delete a file. Example: rm /tmp/mp3files.txt 
+
+mkdir: Make Directory. Example: mkdir /tmp/myfiles/ creates a folder named 
+myfiles in /tmp folder. 
+
+rmdir: Remove Directory. rmdir will only remove directory when it is empty.
+rmdir /tmp/myfiles/ 
+
+which grep
+/usr/bin/grep
+
+whereis ls
+ls: /bin/ls 
+/usr/share/man/man1/ls.1.gz
+
+locate mozilla
+
+$ find . -name *.txt
+./a.txt
+
+ ls -l /home/vic/MP3/*.mp3 > mp3files.txt
+ creates a new file and copies the output of the listing.
