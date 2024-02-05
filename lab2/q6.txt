@@ -1,0 +1,6 @@
+wc file1.txt &
+wc file2.txt &
+wc file3.txt 
+
+killall wc
+
