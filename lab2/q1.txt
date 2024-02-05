@@ -1,0 +1,95 @@
+$ cat fruitlist.txt 
+apple 
+apples 
+pineapple 
+fruit-apple 
+banana 
+pear 
+peach 
+orange
+
+$ grep apple fruitlist.txt 
+apple 
+apples 
+pineapple 
+fruit-apple
+
+$ grep -x apple fruitlist.txt # match whole line 
+apple 
+
+$ grep ^p fruitlist.txt 
+pineapple 
+pear 
+peach 
+
+$ grep -v apple fruitlist.txt #print unmatched lines 
+banana 
+pear 
+peach 
+orange 
+
+$ sort -o fruitlist.txt > output.txt
+apple
+apples
+banana
+fruit-apple
+orange
+peach
+pear
+pineapple
+
+$ sort -r fruitlist.txt
+pineapple
+pear
+peach
+orange
+fruit-apple
+banana
+apples
+apple
+
+$ wc fruitlist.txt
+ 8  8 75 fruitlist.txt
+
+$ echo "hello world" | cut -c 1-3
+hel
+
+$ sed -e 's/apple/banana/' fruitlist.txt
+banana
+bananas
+pinebanana
+fruit-banana
+banana
+
+$ sed -e 's/[AEIOUaeiou]/b/' fruitlist.txt
+bpple
+bpples
+pbneapple
+frbit-apple
+bbnana
+pbar
+pbach
+brange
+
+$ tr 'abc' '123' < fruitlist.txt
+1pple
+1pples
+pine1pple
+fruit-1pple
+21n1n1
+pe1r
+pe13h
+or1nge
+
+$ ps
+      PID    PPID    PGID     WINPID   TTY         UID    STIME COMMAND
+     1948    1675    1948      27144  pty0      197609 10:59:03 /usr/bin/ps
+     1674       1    1674      11972  ?         197609 08:41:06 /usr/bin/mintty
+     1675    1674    1675      23720  pty0      197609 08:41:06 /usr/bin/bash
+
+$ kill 1234
+
+$ chmod +x fruitlist.txt
+
+$ bc | 5+7 
+12

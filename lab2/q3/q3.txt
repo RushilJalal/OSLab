@@ -1,0 +1,7 @@
+$ grep -c ':ICT:' studentInformation.txt
+
+$ sed -e 's/IT/Information Technology/g' studentInformation.txt > ITStudents.txt
+
+$ grep '^1234:' studentInformation.txt | cut -d: -f6-8 | tr ':' '\n' | tr '\n' '+' | sed 's/+$/\n/' | bc
+
+$ head -n 1 studentInformation.txt | tr [a-z] [A-Z]; tail -n +2 studentInformation.txt
