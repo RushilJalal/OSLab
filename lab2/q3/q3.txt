@@ -1,6 +1,6 @@
 $ grep -c ':ICT:' studentInformation.txt
 
-$ sed -e 's/IT/Information Technology/g' studentInformation.txt > ITStudents.txt
+$ sed 's/IT/Information Technology/g' studentInformation.txt > ITStudents.txt
 
 $ grep '^1234:' studentInformation.txt | cut -d: -f6-8 | tr ':' '\n' | tr '\n' '+' | sed 's/+$/\n/' | bc
 
