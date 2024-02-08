@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <input_file> <pattern1> [pattern2 pattern3 ...]"
-    exit 1
-fi
-
 input_file=$1
 shift
 
@@ -24,7 +19,7 @@ while true; do
             ;;
         b)
             for pattern in "$@"; do
-                sed -i "/$pattern/d" "$input_file"
+                sed "/$pattern/d" "$input_file"
             done
             echo "Deletions complete."
             ;;
