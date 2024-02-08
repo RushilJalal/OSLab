@@ -2,6 +2,14 @@ $ grep -c ':ICT:' studentInformation.txt
 
 $ sed 's/IT/Information Technology/g' studentInformation.txt > ITStudents.txt
 
-$ grep '^1234:' studentInformation.txt | cut -d: -f6-8 | tr ':' '\n' | tr '\n' '+' | sed 's/+$/\n/' | bc
+grep '^1234:' studentInformation.txt | cut -d: -f6-8 | tr -s ':' '\n' | (
+    sum=0
+    count=0
+    while read -r mark; do
+        sum=$((sum + mark))
+        ((count++))
+    done
+    echo "Average: $((sum / count))"
+)
 
 $ head -n 1 studentInformation.txt | tr [a-z] [A-Z]; tail -n +2 studentInformation.txt

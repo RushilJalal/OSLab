@@ -1,6 +1,3 @@
-wc file1.txt &
-wc file2.txt &
-wc file3.txt 
+for i in {1..5}; do wc & done
 
-killall wc
-
+pkill -f wc
