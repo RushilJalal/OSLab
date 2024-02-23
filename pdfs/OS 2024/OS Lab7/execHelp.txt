@@ -1,0 +1,130 @@
+WAIT
+#include <stdio.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<unistd.h>
+#include<stdlib.h>
+int main()
+{
+    pid_t p;
+int status;
+    p=fork();
+    if(p>0)
+    {
+wait(&status);        
+printf("Parent Process");
+printf("Status: %d",status);
+    }
+    else if(p==0)
+    {
+        printf("Child process");
+     exit(0);
+    }
+}
+EXECL
+#include <stdio.h>
+#include<sys/types.h>
+#include<unistd.h>      // contains execl
+int main()
+{
+    pid_t p;
+    p=fork();
+    if(p>0)
+    {
+wait();        
+printf("Parent Process");
+
+    }
+    else if(p==0)
+    {
+        printf("Child process");
+        execl("/bin/ls","ls","-l",NULL);
+        printf("This will not be executed");
+        
+    }
+}
+EXECLP
+#include <stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+int main()
+{
+    pid_t p;
+    p=fork();
+    if(p>0)
+    {
+wait();        
+printf("Parent Process");
+
+    }
+    else if(p==0)
+    {
+        printf("Child process");
+        execlp("ls","ls","-a",NULL);
+        printf("This will not be executed");
+        
+    }
+}
+EXECV
+#include <stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+char *a[]={"/bin/ls","-l",NULL};
+int main()
+{
+    pid_t p;
+    p=fork();
+    if(p>0)
+    {
+wait();        
+printf("Parent Process");
+    }
+    else if(p==0)
+    {
+        printf("Child process");
+        execv(a[0],a);
+        printf("This will not be executed");
+        
+    }
+}
+EXECVP
+#include <stdio.h>
+#include<sys/types.h>
+#include<unistd.h>
+char *a[]={"ls","-l",NULL};
+int main()
+{
+    pid_t p;
+    p=fork();
+    if(p>0)
+    {
+wait();        
+printf("Parent Process");
+    }
+    else if(p==0)
+    {
+        printf("Child process");
+        execvp(a[0],a);
+        printf("This will not be executed");
+        
+    }
+}
+
+
+
+#include<sys/types.h>
+#include<stdio.h>
+int a = 6;	/* global (external) variable */
+int main(void) {
+int b;	/* local variable */
+pid_t pid;	/* process id */
+b = 88;
+printf("before fork\n");
+pid = fork();
+if (pid == 0) {	/* child */
+a++; b++;
+} else	/* parent */
+waitpid(pid);
+printf("after fork, a = %d, b = %d\n", a, b);
+exit(0);
+}
