@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+//practice
 // finds sum from 1 to n using thread synchronisation
 volatile long int a = 0;
 pthread_mutex_t aLock;
@@ -52,3 +53,5 @@ int main(int argc, char const *argv[])
     pthread_mutex_destroy(&aLock);
     return 0;
 }
+
+// $ gcc thread.c -o thread -lpthread
