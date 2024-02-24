@@ -12,9 +12,6 @@ int buff[MAXCAPACITY];
 sem_t pmutex, cmutex, empty, full;
 int in = 1, out = 1;
 int item = 0;
-void *produce(void *);
-void *consume(void *);
-int status = 0;
 
 void *produce(void *arg)
 {

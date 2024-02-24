@@ -1,5 +1,6 @@
 {
-    "files.associations": {
-        "semaphore.h": "c"
-    }
+  "files.associations": {
+    "semaphore.h": "c",
+    "pthread.h": "c"
+  }
 }
