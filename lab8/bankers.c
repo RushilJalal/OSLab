@@ -1,85 +1,147 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-int available[100];
-int allocation[100][100];
-int max[100][100];
-int need[100][100];
+#define MAX_PROCESSES 10
+#define MAX_RESOURCES 10
+
+int available[MAX_RESOURCES];
+int max[MAX_PROCESSES][MAX_RESOURCES];
+int allocation[MAX_PROCESSES][MAX_RESOURCES];
+int need[MAX_PROCESSES][MAX_RESOURCES];
+int finish[MAX_PROCESSES];
 int num_processes;
 int num_resources;
 
-int main()
+// Function to check if the system is in a safe state
+int isSafe()
 {
-    printf("Enter number of processes: \n");
-    scanf("%d", &num_processes);
-    printf("Enter number of resources: \n");
-    scanf("%d", &num_resources);
+    int work[MAX_RESOURCES];
+    int i, j, count = 0;
 
-    for (int i = 0; i < num_resources; i++)
+    // Initialize work with available resources
+    for (i = 0; i < num_resources; i++)
     {
-        printf("Number of available resources of type %d: ", i);
-        scanf("%d", &available[i]);
+        work[i] = available[i];
     }
 
-    printf("Enter allocation matrix: \n");
-    for (int i = 0; i < num_processes; i++)
+    // Initialize finish array
+    for (i = 0; i < num_processes; i++)
     {
-        for (int j = 0; j < num_resources; j++)
+        finish[i] = 0;
+    }
+
+    // Check for each process
+    while (count < num_processes)
+    {
+        int found = 0;
+
+        for (i = 0; i < num_processes; i++)
         {
-            // printf("Value of process %d and resource type %d: ", i, j);
-            scanf("%d", &allocation[i][j]);
+            if (finish[i] == 0)
+            {
+                int canAllocate = 1;
+
+                for (j = 0; j < num_resources; j++)
+                {
+                    if (need[i][j] > work[j])
+                    {
+                        canAllocate = 0;
+                        break;
+                    }
+                }
+
+                if (canAllocate)
+                {
+                    // Allocate resources to process i
+                    for (j = 0; j < num_resources; j++)
+                    {
+                        work[j] += allocation[i][j];
+                    }
+
+                    // Mark process i as finished
+                    finish[i] = 1;
+                    found = 1;
+                    count++;
+                }
+            }
+        }
+
+        // If no process can be allocated resources, break the loop
+        if (!found)
+        {
+            break;
         }
     }
 
-    printf("Enter max matrix: \n");
-    for (int i = 0; i < num_processes; i++)
+    // If all processes are finished, the system is in a safe state
+    return (count == num_processes);
+}
+
+int main()
+{
+    int i, j;
+
+    // Input the number of processes and resources
+    printf("Enter the number of processes: ");
+    scanf("%d", &num_processes);
+
+    printf("Enter the number of resources: ");
+    scanf("%d", &num_resources);
+
+    // Input the maximum available resources
+    printf("Enter the maximum available resources for each type:\n");
+    for (i = 0; i < num_resources; i++)
     {
-        for (int j = 0; j < num_resources; j++)
+        printf("Resource %d: ", i);
+        scanf("%d", &available[i]);
+    }
+
+    // Input the maximum resources that can be allocated to each process
+    printf("Enter the maximum resources that can be allocated to each process:\n");
+    for (i = 0; i < num_processes; i++)
+    {
+        printf("For Process %d:\n", i);
+        for (j = 0; j < num_resources; j++)
         {
-            // printf("Value of process %d and resource type %d: ", i, j);
+            printf("Resource %d: ", j);
             scanf("%d", &max[i][j]);
-            // calc need matrix
+        }
+    }
+
+    // Input the resources currently allocated to each process
+    printf("Enter the resources currently allocated to each process:\n");
+    for (i = 0; i < num_processes; i++)
+    {
+        printf("For Process %d:\n", i);
+        for (j = 0; j < num_resources; j++)
+        {
+            printf("Resource %d: ", j);
+            scanf("%d", &allocation[i][j]);
+
+            // Calculate the need matrix
             need[i][j] = max[i][j] - allocation[i][j];
         }
     }
 
-    // display need matrix
-    printf("Need matrix: \n");
-    for (int i = 0; i < num_processes; i++)
+    // Display the need matrix
+    printf("Need matrix:\n");
+    for (i = 0; i < num_processes; i++)
     {
-        for (int j = 0; j < num_resources; j++)
+        for (j = 0; j < num_resources; j++)
         {
             printf("%d ", need[i][j]);
         }
         printf("\n");
     }
 
-    resource_request(need, num_processes);
-}
-
-void safety()
-{
-    int work[100];
-    int finish[100];
-
-    // init work = available
-    for (int i = 0; i < num_processes; i++)
+    // Check if the system is in a safe state
+    if (isSafe())
     {
-        work[i] = available[i];
+        printf("The system is in a safe state.\n");
+    }
+    else
+    {
+        printf("The system is not in a safe state.\n");
     }
 
-    // init finish = 0 for i = 0...n-1
-    for (int i = 0; i < num_processes; i++)
-    {
-        finish[i] = 0;
-    }
-
-    // find value of i such that:
-    // finish[i]=false
-    // need[i]<=work
-}
-
-void resource_request(int need[][], int num_processes)
-{
-    int request[num_processes];
+    return 0;
 }
