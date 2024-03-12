@@ -30,7 +30,7 @@ void preemptiveSJF(Process processes[], int n)
         int selectedProcess = -1; // index of currently selected process for exec
         for (int i = 0; i < n; i++)
         {
-            if (processes[i].arrival_time < currentTime && processes[i].remaining_time > 0)
+            if (processes[i].arrival_time <= currentTime && processes[i].remaining_time > 0)
             {
                 if (selectedProcess == -1 || processes[i].remaining_time < processes[selectedProcess].remaining_time)
                 {
