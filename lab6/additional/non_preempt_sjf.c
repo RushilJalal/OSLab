@@ -13,22 +13,22 @@ typedef struct process
     int turn_around_time;
 } process;
 
-void sort(process *processes, int num_processes)
-{
-    // sort based on arrival time
-    for (int i = 0; i < num_processes; i++)
-    {
-        for (int j = 0; j < num_processes - i - 1; j++)
-        {
-            if (processes[j].arrival_time > processes[j + 1].arrival_time)
-            {
-                process temp = processes[j];
-                processes[j] = processes[j + 1];
-                processes[j + 1] = temp;
-            }
-        }
-    }
-}
+// void sort(process *processes, int num_processes)
+// {
+//     // sort based on arrival time
+//     for (int i = 0; i < num_processes; i++)
+//     {
+//         for (int j = 0; j < num_processes - i - 1; j++)
+//         {
+//             if (processes[j].arrival_time > processes[j + 1].arrival_time)
+//             {
+//                 process temp = processes[j];
+//                 processes[j] = processes[j + 1];
+//                 processes[j + 1] = temp;
+//             }
+//         }
+//     }
+// }
 
 void non_preemptive_sjf(process *processes, int num_processes)
 {
@@ -61,14 +61,15 @@ void non_preemptive_sjf(process *processes, int num_processes)
         }
         else // run the selected process
         {
-            processes[selectedProcess].completion_time = current_time + processes[selectedProcess].burst_time;
+            printf("Time: %d Process no: %d\n", current_time, processes[selectedProcess].process_id);
+            current_time += processes[selectedProcess].burst_time;
+            processes[selectedProcess].completion_time = current_time;
             // TAT = CT - AT
             processes[selectedProcess].turn_around_time = processes[selectedProcess].completion_time - processes[selectedProcess].arrival_time;
             // WT = TAT - BT
             processes[selectedProcess].waiting_time = processes[selectedProcess].turn_around_time - processes[selectedProcess].burst_time;
             sumWT += processes[selectedProcess].waiting_time;
             sumTAT += processes[selectedProcess].turn_around_time;
-            current_time = processes[selectedProcess].completion_time;
             completed_processes++;
             processes[selectedProcess].completed = 1; // process complete
         }
@@ -103,7 +104,7 @@ int main(int argc, char const *argv[])
     }
 
     // sort processes based on arrival time
-    sort(processes, num_processes);
+    // sort(processes, num_processes);
 
     // calculate waiting time for each process and avg waiting time
     non_preemptive_sjf(processes, num_processes);
