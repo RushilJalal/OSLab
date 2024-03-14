@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 // non-preemptive sjf
 
 typedef struct process
@@ -37,15 +37,15 @@ void calcWaitingTime(process *processes, int num_processes)
     int current_time = 0;
     int completed_processes = 0;
 
-    while (completed_processes <= num_processes)
+    while (completed_processes < num_processes)
     {
         int selectedProcess = -1; // initially, no process selected
         // loop through all processes and choose process which has arrived and has shortest BT
         for (int i = 0; i < num_processes; i++)
         {
-            if (processes[i].arrival_time <= current_time) // arrived process
+            if (!processes[i].completed && processes[i].arrival_time <= current_time) // arrived process
             {
-                if (selectedProcess == -1 && processes[i].completed == 0 || processes[i].burst_time < processes[selectedProcess].burst_time)
+                if (selectedProcess == -1 || processes[i].burst_time < processes[selectedProcess].burst_time)
                 {
                     selectedProcess = i;
                 }
@@ -78,7 +78,7 @@ void calcWaitingTime(process *processes, int num_processes)
     }
 
     avg_wait = sum / num_processes;
-    printf("Avg waiting time: %f", avg_wait);
+    printf("Avg waiting time: %.2f\n", avg_wait);
 }
 
 int main(int argc, char const *argv[])
@@ -86,7 +86,7 @@ int main(int argc, char const *argv[])
     int num_processes;
     printf("Enter number of processes: ");
     scanf("%d", &num_processes);
-    process processes[num_processes];
+    process *processes = (process *)malloc(num_processes * sizeof(process));
     printf("Enter arrival time and burst time of each process: \n");
     for (int i = 0; i < num_processes; i++)
     {
