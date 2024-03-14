@@ -30,7 +30,7 @@ void sort(process *processes, int num_processes)
     }
 }
 
-void calcWaitingTime(process *processes, int num_processes)
+void non_preemptive_sjf(process *processes, int num_processes)
 {
     double sumWT = 0;
     double sumTAT = 0;
@@ -90,6 +90,7 @@ int main(int argc, char const *argv[])
     int num_processes;
     printf("Enter number of processes: ");
     scanf("%d", &num_processes);
+
     process *processes = (process *)malloc(num_processes * sizeof(process));
     printf("Enter arrival time and burst time of each process: \n");
     for (int i = 0; i < num_processes; i++)
@@ -105,7 +106,7 @@ int main(int argc, char const *argv[])
     sort(processes, num_processes);
 
     // calculate waiting time for each process and avg waiting time
-    calcWaitingTime(processes, num_processes);
+    non_preemptive_sjf(processes, num_processes);
 
     return 0;
 }
