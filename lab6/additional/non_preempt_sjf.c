@@ -32,8 +32,10 @@ void sort(process *processes, int num_processes)
 
 void calcWaitingTime(process *processes, int num_processes)
 {
-    double sum = 0;
+    double sumWT = 0;
+    double sumTAT = 0;
     double avg_wait;
+    double avg_TAT;
     int current_time = 0;
     int completed_processes = 0;
 
@@ -43,7 +45,7 @@ void calcWaitingTime(process *processes, int num_processes)
         // loop through all processes and choose process which has arrived and has shortest BT
         for (int i = 0; i < num_processes; i++)
         {
-            if (!processes[i].completed && processes[i].arrival_time <= current_time) // arrived process
+            if (!processes[i].completed && processes[i].arrival_time <= current_time) // arrived process but not completed yet
             {
                 if (selectedProcess == -1 || processes[i].burst_time < processes[selectedProcess].burst_time)
                 {
@@ -59,7 +61,8 @@ void calcWaitingTime(process *processes, int num_processes)
             processes[selectedProcess].turn_around_time = processes[selectedProcess].completion_time - processes[selectedProcess].arrival_time;
             // WT = TAT - BT
             processes[selectedProcess].waiting_time = processes[selectedProcess].turn_around_time - processes[selectedProcess].burst_time;
-            sum += processes[selectedProcess].waiting_time;
+            sumWT += processes[selectedProcess].waiting_time;
+            sumTAT += processes[selectedProcess].turn_around_time;
             current_time = processes[selectedProcess].completion_time;
             completed_processes++;
             processes[selectedProcess].completed = 1; // process complete
@@ -77,8 +80,9 @@ void calcWaitingTime(process *processes, int num_processes)
         printf("Process %d  Waiting time: %d\n", processes[i].process_id, processes[i].waiting_time);
     }
 
-    avg_wait = sum / num_processes;
-    printf("Avg waiting time: %.2f\n", avg_wait);
+    avg_wait = sumWT / num_processes;
+    avg_TAT = sumTAT / num_processes;
+    printf("Avg waiting time: %.2f\n Avg TAT: %.2f\n", avg_wait, avg_TAT);
 }
 
 int main(int argc, char const *argv[])
