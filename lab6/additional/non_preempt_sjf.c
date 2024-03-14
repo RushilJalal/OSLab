@@ -53,8 +53,13 @@ void non_preemptive_sjf(process *processes, int num_processes)
                 }
             }
         }
-        // run the selected process
-        if (selectedProcess != -1)
+
+        // no process arrived yet
+        if (selectedProcess == -1)
+        {
+            current_time++;
+        }
+        else // run the selected process
         {
             processes[selectedProcess].completion_time = current_time + processes[selectedProcess].burst_time;
             // TAT = CT - AT
@@ -66,11 +71,6 @@ void non_preemptive_sjf(process *processes, int num_processes)
             current_time = processes[selectedProcess].completion_time;
             completed_processes++;
             processes[selectedProcess].completed = 1; // process complete
-        }
-
-        else // no process arrived yet
-        {
-            current_time++;
         }
     }
 
