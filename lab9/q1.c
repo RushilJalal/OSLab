@@ -60,6 +60,7 @@ void first_fit(hole holes[], int nh, process processes[], int np)
     }
 }
 
+// check
 void best_fit(hole holes[], int nh, process processes[], int np)
 {
     // sort the holes
