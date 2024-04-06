@@ -6,13 +6,13 @@
 
 // fifo
 // on inserting a page reference number
-// check if it already exists in the frames, top != num_frames
+// check if it already exists in the frames, rear != num_frames
 // if yes, hit(no page fault)
 // else, miss(page fault), replace frames[0] with this number
 
 void fifo(int pages[], int frames[], int num_pages, int num_frames)
 {
-    int hit_check, top = 0, front = 0, page_faults = 0;
+    int hit_check, rear = 0, front = 0, page_faults = 0;
 
     for (int i = 0; i < num_pages; i++)
     {
@@ -30,11 +30,11 @@ void fifo(int pages[], int frames[], int num_pages, int num_frames)
         if (hit_check == 0) // miss(page fault)
         {
             page_faults++;
-            // queue is not full, insert new page number at top index
-            if (top != num_frames)
+            // queue is not full, insert new page number at rear index
+            if (rear != num_frames)
             {
-                frames[top] = pages[i];
-                top++;
+                frames[rear] = pages[i];
+                rear++;
             }
 
             // replace front queue element with the new page number
@@ -46,7 +46,7 @@ void fifo(int pages[], int frames[], int num_pages, int num_frames)
         }
 
         // cyclic queue
-        if (front == top)
+        if (front == rear)
         {
             front = 0;
         }
@@ -70,11 +70,38 @@ void fifo(int pages[], int frames[], int num_pages, int num_frames)
     printf("\n");
 }
 
-
-// pages are replaced which would not be used for the longest duration of time in the future. 
-void optimal()
+// pages are replaced which would not be used for the longest duration of time in the future.
+void optimal(int pages[], int frames[], int num_pages, int num_frames)
 {
-    
+    int hit_check, rear = 0, front = 0, page_faults = 0;
+}
+
+// function to find the page to be replaced
+int predict(int pages[], int frames[], int num_pages, int num_frames, int index)
+{
+    int result = -1, farthest = index;
+    for (int i = 0; i < num_frames; i++)
+    {
+        int j;
+        for (j = 0; i < num_pages; j++)
+        {
+            if (frames[i] == pages[j])
+            {
+                if (j > farthest)
+                {
+                    farthest = j;
+                    result = i;
+                }
+                break;
+            }
+        }
+
+        // if page never found
+        if (j == num_pages)
+            return i;
+    }
+
+    return (result == -1) ? 0 : result;
 }
 
 int main(int argc, char const *argv[])
@@ -102,6 +129,7 @@ int main(int argc, char const *argv[])
     }
 
     fifo(pages, frames, num_pages, num_frames);
+    optimal(pages, frames, num_pages, num_frames);
 
     return 0;
 }

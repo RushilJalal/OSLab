@@ -60,12 +60,8 @@ int main()
     }
 
     pid_t pid1 = fork();
-    if (pid1 < 0)
-    {
-        perror("Fork failed");
-        exit(1);
-    }
-    else if (pid1 == 0) // child
+
+    if (pid1 == 0) // child
     {
         bubbleSortStrings(N, strings);
 
@@ -80,12 +76,7 @@ int main()
     {
         pid_t pid2 = fork();
 
-        if (pid2 == -1)
-        {
-            perror("fork failed!");
-            exit(1);
-        }
-        else if (pid2 == 0)
+        if (pid2 == 0)
         {
             selectionSortStrings(N, strings);
             printf("Selection sorted strings: \n");
