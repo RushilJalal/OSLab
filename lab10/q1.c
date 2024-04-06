@@ -74,6 +74,63 @@ void fifo(int pages[], int frames[], int num_pages, int num_frames)
 void optimal(int pages[], int frames[], int num_pages, int num_frames)
 {
     int hit_check, rear = 0, front = 0, page_faults = 0;
+
+    for (int i = 0; i < num_pages; i++)
+    {
+        hit_check = 0;
+        for (int j = 0; j < num_frames; j++)
+        {
+            if (pages[i] == frames[j])
+            {
+                printf("Hit %d\n", pages[i]);
+                hit_check = 1;
+                break;
+            }
+        }
+
+        if (hit_check == 0) // miss(page fault)
+        {
+            page_faults++;
+            // if there is an empty frame, insert the page number
+            int empty_frame_index = -1;
+            for (int j = 0; j < num_frames; j++)
+            {
+                if (frames[j] == -1)
+                {
+                    empty_frame_index = j;
+                    break;
+                }
+            }
+
+            if (empty_frame_index != -1)
+            {
+                frames[empty_frame_index] = pages[i];
+            }
+            else
+            {
+                // find the page to be replaced
+                int replace_index = predict(pages, frames, num_pages, num_frames, i);
+                frames[replace_index] = pages[i];
+            }
+        }
+
+        // print intermediate page table
+        printf("After inserting %d: ", pages[i]);
+        for (int i = 0; i < num_frames; i++)
+        {
+            printf("%d  ", frames[i]);
+        }
+        printf("\n");
+    }
+
+    printf("Total page faults: %d\n", page_faults);
+
+    printf("Final page table: ");
+    for (int i = 0; i < num_frames; i++)
+    {
+        printf("%d  ", frames[i]);
+    }
+    printf("\n");
 }
 
 // function to find the page to be replaced
