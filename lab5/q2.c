@@ -38,7 +38,6 @@ int main(int argc, char *argv[])
 
     else if (pid == 0) // child
     {
-        wait(NULL); // child should wait for parent to execute
         bubbleSortStrings(argc, argv);
         printf("Sorted strings in child process: \n");
         for (int i = 1; i < argc; i++)
@@ -49,6 +48,7 @@ int main(int argc, char *argv[])
 
     else
     {
+        wait(NULL); // parent should wait for child to execute first
         printf("Unsorted strings in parent process: \n");
         for (int i = 1; i < argc; i++)
         {
