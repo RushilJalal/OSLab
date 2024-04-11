@@ -11,7 +11,7 @@ int finish[MAX_PROCESSES];
 int num_processes;
 int num_resources;
 
-// Function to check if the system is in a safe state
+
 int isSafe()
 {
     int work[MAX_RESOURCES];
@@ -76,6 +76,54 @@ int isSafe()
     return (count == num_processes);
 }
 
+void resourceRequest(int process)
+{
+    int request[MAX_RESOURCES];
+    int i;
+
+    printf("Enter resource request for Process %d:\n", process);
+    for (i = 0; i < num_resources; i++)
+    {
+        printf("Resource %d: ", i);
+        scanf("%d", &request[i]);
+    }
+
+    // Check if the request can be granted
+    for (i = 0; i < num_resources; i++)
+    {
+        if (request[i] > need[process][i] || request[i] > available[i])
+        {
+            printf("Request cannot be granted. Exiting.\n");
+            return;
+        }
+    }
+
+    // Simulate allocation
+    for (i = 0; i < num_resources; i++)
+    {
+        available[i] -= request[i];
+        allocation[process][i] += request[i];
+        need[process][i] -= request[i];
+    }
+
+    // Check if the system remains in a safe state
+    if (isSafe())
+    {
+        printf("Request granted. The system is still in a safe state.\n");
+    }
+    else
+    {
+        printf("Request cannot be granted. The system would be unsafe.\n");
+        // Roll back the allocation
+        for (i = 0; i < num_resources; i++)
+        {
+            available[i] += request[i];
+            allocation[process][i] -= request[i];
+            need[process][i] += request[i];
+        }
+    }
+}
+
 int main()
 {
     int i, j;
@@ -96,7 +144,7 @@ int main()
     }
 
     // Input the maximum resources that can be allocated to each process
-    printf("Enter the maximum resources that can be allocated to each process:\n");
+    printf("Enter the maximum resources for each process:\n");
     for (i = 0; i < num_processes; i++)
     {
         printf("For Process %d:\n", i);
@@ -142,6 +190,11 @@ int main()
     {
         printf("The system is not in a safe state.\n");
     }
+
+    int process;
+    printf("Enter the process number for resource request: ");
+    scanf("%d", &process);
+    resourceRequest(process);
 
     return 0;
 }
