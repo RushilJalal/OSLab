@@ -32,8 +32,10 @@ void sort(hole holes[], int nh)
 
 void first_fit(hole holes[], int nh, process processes[], int np)
 {
+    printf("First Fit: \n");
     for (int i = 0; i < np; i++)
     {
+        processes[i].allocated_hole = -1; // Initialize allocated_hole to -1
         int check = 0;
         for (int j = 0; j < nh; j++)
         {
@@ -55,19 +57,17 @@ void first_fit(hole holes[], int nh, process processes[], int np)
     printf("Allocation status: \n");
     for (int i = 0; i < np; i++)
     {
-        if (processes[i].allocated_hole >= 0 && processes[i].allocated_hole < nh)
+        if (processes[i].allocated_hole != -1)
             printf("Process %d, Hole %d \n", processes[i].process_id, processes[i].allocated_hole);
     }
 }
 
-// check
 void best_fit(hole holes[], int nh, process processes[], int np)
 {
-    // sort the holes
-    sort(holes, nh);
-
+    printf("Best Fit: \n");
     for (int i = 0; i < np; i++)
     {
+        processes[i].allocated_hole = -1; // Initialize allocated_hole to -1
         int check = 0;
         for (int j = 0; j < nh; j++)
         {
@@ -89,7 +89,7 @@ void best_fit(hole holes[], int nh, process processes[], int np)
     printf("Allocation status: \n");
     for (int i = 0; i < np; i++)
     {
-        if (processes[i].allocated_hole >= 0 && processes[i].allocated_hole < nh)
+        if (processes[i].allocated_hole != -1)
             printf("Process %d, Hole %d \n", processes[i].process_id, processes[i].allocated_hole);
     }
 }
@@ -117,8 +117,10 @@ int main(int argc, char const *argv[])
         processes[i].process_id = i;
         printf("Enter size of process %d: ", i);
         scanf("%d", &processes[i].process_size);
+        processes[i].allocated_hole = -1; // Initialize allocated_hole to -1
     }
 
+    sort(holes, nh); // Sort holes once before both allocation methods
     first_fit(holes, nh, processes, np);
     best_fit(holes, nh, processes, np);
     return 0;
