@@ -186,6 +186,13 @@ int main(int argc, char const *argv[])
     }
 
     fifo(pages, frames, num_pages, num_frames);
+
+    // re-init frames to -1
+    for (int i = 0; i < num_frames; i++)
+    {
+        frames[i] = -1;
+    }
+
     optimal(pages, frames, num_pages, num_frames);
 
     return 0;

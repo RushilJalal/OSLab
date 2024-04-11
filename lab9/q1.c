@@ -35,7 +35,10 @@ void first_fit(hole holes[], int nh, process processes[], int np)
     printf("First Fit: \n");
     for (int i = 0; i < np; i++)
     {
-        processes[i].allocated_hole = -1; // Initialize allocated_hole to -1
+        processes[i].allocated_hole = -1;
+    }
+    for (int i = 0; i < np; i++)
+    {
         int check = 0;
         for (int j = 0; j < nh; j++)
         {
@@ -65,27 +68,40 @@ void first_fit(hole holes[], int nh, process processes[], int np)
 void best_fit(hole holes[], int nh, process processes[], int np)
 {
     printf("Best Fit: \n");
+    // reinitialize allocated hole to -1
     for (int i = 0; i < np; i++)
     {
-        processes[i].allocated_hole = -1; // Initialize allocated_hole to -1
-        int check = 0;
+        processes[i].allocated_hole = -1;
+    }
+    for (int i = 0; i < np; i++)
+    {
+        int best_idx = -1; // To keep track of the index of the best hole
+
+        // Find the best hole for the current process
         for (int j = 0; j < nh; j++)
         {
             if (holes[j].hole_size >= processes[i].process_size)
             {
-                processes[i].allocated_hole = holes[j].hole_id;
-                holes[j].hole_size -= processes[i].process_size;
-                check = 1;
-                break;
+                if (best_idx == -1 || holes[j].hole_size < holes[best_idx].hole_size)
+                {
+                    best_idx = j;
+                }
             }
         }
 
-        if (!check)
+        // If a suitable hole was found, allocate it to the process
+        if (best_idx != -1)
+        {
+            processes[i].allocated_hole = holes[best_idx].hole_id;
+            holes[best_idx].hole_size -= processes[i].process_size;
+        }
+        else
         {
             printf("Process %d not allocated! Not enough size\n", processes[i].process_id);
         }
     }
 
+    // Print the allocation status
     printf("Allocation status: \n");
     for (int i = 0; i < np; i++)
     {
