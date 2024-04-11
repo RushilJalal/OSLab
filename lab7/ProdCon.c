@@ -63,8 +63,9 @@ int main(int argc, const char *argv[])
 		pthread_join(producers[i], NULL);
 		pthread_join(consumers[i], NULL);
 	}
+
 	printf("Printing array buff: \n");
-	for (int i = 0; i < MAXCAPACITY; i++)
+	for (int i = 1; i <= NumThreads; i++)
 	{
 		printf("%d\n", buff[i]);
 	}
@@ -72,5 +73,5 @@ int main(int argc, const char *argv[])
 }
 
 // how to execute
-// $ gcc ProdCon.c -o pc -lpthread
-// $ ./pc 10
+// $ gcc ProdCon.c -lpthread
+// $ ./a.out 10
