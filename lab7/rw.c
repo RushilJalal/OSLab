@@ -16,14 +16,18 @@ void *reader(void *arg)
   sem_wait(&mutex);
   rcount = rcount + 1;
   if (rcount == 1)
+  {
     sem_wait(&writeblock);
+  }
   sem_post(&mutex);
   printf("Data read by the reader %d is %d\n", f, data);
   sleep(1);
   sem_wait(&mutex);
   rcount = rcount - 1;
   if (rcount == 0)
+  {
     sem_post(&writeblock);
+  }
   sem_post(&mutex);
 }
 
