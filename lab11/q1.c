@@ -1,11 +1,11 @@
-/* Develop a menu driven program to simulate the following disk scheduling algo-
-rithms: SSTF, SCAN, C-SCAN, C-LOOK.  */
+/* Develop a menu driven program to simulate the following disk scheduling
+algorithms: SSTF, SCAN, C-SCAN, C-LOOK.  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include <limits.h> //used for INT_MAX
 
-// Function to sort the requests in ascending order
+// Function to sort the requests
 void sort(int arr[], int n)
 {
     for (int i = 0; i < n - 1; i++)
@@ -22,7 +22,6 @@ void sort(int arr[], int n)
     }
 }
 
-// Function to find the absolute difference between two numbers
 int abs_diff(int a, int b)
 {
     return abs(a - b);
@@ -62,7 +61,6 @@ void sstf(int arr[], int n, int head)
     printf("\nTotal Head Movement: %d\n", total_movement);
 }
 
-// Function to simulate SCAN disk scheduling algorithm
 void scan(int arr[], int n, int head, int size)
 {
     int total_movement = 0;
@@ -115,12 +113,12 @@ void scan(int arr[], int n, int head, int size)
     printf("\nTotal Head Movement: %d\n", total_movement);
 }
 
-// Function to simulate C-SCAN disk scheduling algorithm
 void c_scan(int arr[], int n, int head, int size)
 {
     int total_movement = 0;
     int current_head = head;
     printf("\nC-SCAN Sequence: ");
+
     // Move right
     for (int i = 0; i < n; i++)
     {
@@ -132,10 +130,17 @@ void c_scan(int arr[], int n, int head, int size)
             arr[i] = INT_MAX; // Mark the processed request
         }
     }
-    // Move to the beginning
+
+    // move to the rightmost track
     printf("%d ", size - 1);
     total_movement += abs_diff(current_head, size - 1);
+    current_head = size - 1;
+
+    // Move to the beginning (leftmost track)
+    printf("0 ");
+    total_movement += current_head; // Add distance from last track to beginning
     current_head = 0;
+
     // Move right again
     for (int i = 0; i < n; i++)
     {
@@ -147,10 +152,10 @@ void c_scan(int arr[], int n, int head, int size)
             arr[i] = INT_MAX; // Mark the processed request
         }
     }
+
     printf("\nTotal Head Movement: %d\n", total_movement);
 }
 
-// Function to simulate C-LOOK disk scheduling algorithm
 void c_look(int arr[], int n, int head)
 {
     int total_movement = 0;
@@ -183,19 +188,39 @@ void c_look(int arr[], int n, int head)
 
 int main()
 {
-    int initial_head_position, n;
+    int initial_head_position, n, size;
+    printf("Enter disk size: ");
+    scanf("%d", &size);
     printf("Enter initial head position: ");
     scanf("%d", &initial_head_position);
     printf("Enter the number of requests: ");
     scanf("%d", &n);
     int requests[n], r[n];
     printf("Enter the requests: ");
+
+    // copy the requests array into r array
     for (int i = 0; i < n; i++)
     {
         scanf("%d", &requests[i]);
         r[i] = requests[i];
     }
+
     sort(requests, n);
+
+    if (size < requests[n - 1])
+        printf("size < last disk request");
+
+    // copy the requests array into r array
+    for (int i = 0; i < n; i++)
+    {
+        r[i] = requests[i];
+    }
+
+    printf("Sorted array: ");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d  ", requests[i]);
+    }
 
     int choice;
     do
@@ -217,7 +242,7 @@ int main()
             scan(r, n, initial_head_position, n);
             break;
         case 3:
-            c_scan(r, n, initial_head_position, n);
+            c_scan(r, n, initial_head_position, size);
             break;
         case 4:
             c_look(r, n, initial_head_position);
@@ -229,7 +254,7 @@ int main()
             printf("Invalid choice! Please enter a number between 1 and 5.\n");
         }
 
-        // reinitialse r with requests
+        // reinitialse r with requests array
         for (int i = 0; i < n; i++)
         {
             r[i] = requests[i];
