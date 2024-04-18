@@ -65,50 +65,34 @@ void scan(int arr[], int n, int head, int size)
 {
     int total_movement = 0;
     int current_head = head;
-    int direction = 1; // 1 for moving right, -1 for moving left
     printf("\nSCAN Sequence: ");
-    while (1)
+
+    // head moves from left to right
+    for (int i = 0; i < n; i++)
     {
-        if (direction == 1)
+        if (arr[i] >= current_head)
         {
-            for (int i = 0; i < n; i++)
-            {
-                if (arr[i] >= current_head)
-                {
-                    printf("%d ", arr[i]);
-                    total_movement += abs_diff(current_head, arr[i]);
-                    current_head = arr[i];
-                    arr[i] = INT_MAX; // Mark the processed request
-                }
-            }
-            direction = -1;
+            printf("%d ", arr[i]);
+            total_movement += abs_diff(current_head, arr[i]);
+            current_head = arr[i];
+            arr[i] = INT_MAX; // Mark the processed request
         }
-        else
+    }
+
+    // head goes from last disk request to end of disk
+    total_movement += abs_diff(size - 1, current_head);
+    current_head = size - 1;
+
+    // now head moves from right to left
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (arr[i] <= current_head && arr[i] != INT_MAX)
         {
-            for (int i = n - 1; i >= 0; i--)
-            {
-                if (arr[i] <= current_head && arr[i] != INT_MAX)
-                {
-                    printf("%d ", arr[i]);
-                    total_movement += abs_diff(current_head, arr[i]);
-                    current_head = arr[i];
-                    arr[i] = INT_MAX; // Mark the processed request
-                }
-            }
-            direction = 1;
+            printf("%d ", arr[i]);
+            total_movement += abs_diff(current_head, arr[i]);
+            current_head = arr[i];
+            arr[i] = INT_MAX; // Mark the processed request
         }
-        // Check if there are any requests left
-        int remaining_requests = 0;
-        for (int i = 0; i < n; i++)
-        {
-            if (arr[i] != INT_MAX)
-            {
-                remaining_requests = 1;
-                break;
-            }
-        }
-        if (!remaining_requests)
-            break;
     }
     printf("\nTotal Head Movement: %d\n", total_movement);
 }
@@ -239,7 +223,7 @@ int main()
             sstf(r, n, initial_head_position);
             break;
         case 2:
-            scan(r, n, initial_head_position, n);
+            scan(r, n, initial_head_position, size);
             break;
         case 3:
             c_scan(r, n, initial_head_position, size);
