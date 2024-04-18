@@ -59,6 +59,8 @@ void look(int *requests, int num_requests, int head_position)
         }
     }
 
+    i = requests[num_requests - 1];
+
     // move left
     while (i >= 0)
     {

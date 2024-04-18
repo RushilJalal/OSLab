@@ -37,6 +37,7 @@ void first_fit(hole holes[], int nh, process processes[], int np)
     {
         processes[i].allocated_hole = -1;
     }
+
     for (int i = 0; i < np; i++)
     {
         int check = 0;
@@ -67,41 +68,36 @@ void first_fit(hole holes[], int nh, process processes[], int np)
 
 void best_fit(hole holes[], int nh, process processes[], int np)
 {
-    printf("Best Fit: \n");
-    // reinitialize allocated hole to -1
+    printf("best fit: \n");
+    sort(holes, nh);
+
     for (int i = 0; i < np; i++)
     {
         processes[i].allocated_hole = -1;
     }
+
     for (int i = 0; i < np; i++)
     {
-        int best_idx = -1; // To keep track of the index of the best hole
-
-        // Find the best hole for the current process
-        for (int j = 0; j < nh; j++)
+        int best_index = -1;
+        for (int j = 0; i < nh; j++)
         {
-            if (holes[j].hole_size >= processes[i].process_size)
+            if (processes[i].process_size <= holes[j].hole_size)
             {
-                if (best_idx == -1 || holes[j].hole_size < holes[best_idx].hole_size)
-                {
-                    best_idx = j;
-                }
+                best_index = j;
             }
         }
 
-        // If a suitable hole was found, allocate it to the process
-        if (best_idx != -1)
+        if (best_index == -1)
         {
-            processes[i].allocated_hole = holes[best_idx].hole_id;
-            holes[best_idx].hole_size -= processes[i].process_size;
+            printf("Process %d could not be allocated in any hole!", processes[i].process_id);
         }
         else
         {
-            printf("Process %d not allocated! Not enough size\n", processes[i].process_id);
+            processes[i].allocated_hole = holes[best_index].hole_id;
+            holes[best_index].hole_size -= processes[i].process_size;
         }
     }
 
-    // Print the allocation status
     printf("Allocation status: \n");
     for (int i = 0; i < np; i++)
     {
@@ -136,8 +132,9 @@ int main(int argc, char const *argv[])
         processes[i].allocated_hole = -1; // Initialize allocated_hole to -1
     }
 
-    sort(holes, nh); // Sort holes once before both allocation methods
     first_fit(holes, nh, processes, np);
+
+    sort(holes, nh);
     best_fit(holes, nh, processes, np);
     return 0;
 }
