@@ -3,7 +3,6 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <stdlib.h>
 
 #define MAXCAPACITY 100

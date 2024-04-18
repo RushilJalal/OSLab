@@ -4,6 +4,7 @@
     "pthread.h": "c",
     "stdlib.h": "c",
     "stdio.h": "c",
-    "signal.h": "c"
+    "signal.h": "c",
+    "wait.h": "c"
   }
 }
