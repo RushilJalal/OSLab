@@ -151,7 +151,7 @@ void optimal(int pages[], int frames[], int num_pages, int num_frames)
         {
             printf("%d  ", frames[k]);
         }
-        printf("\n");
+        printf("\n\n");
     }
 
     printf("Total page faults: %d\n", page_faults);

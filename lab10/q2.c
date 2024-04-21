@@ -42,13 +42,14 @@ int main()
         {
             if (frames[j] == pages[i])
             {
+                printf("Hit %d\n", frames[j]);
                 found = 1;
                 lastUsed[j] = counter++;
                 break;
             }
         }
 
-        //if not found, least recently used frame is updated with the new page
+        // if not found, least recently used frame is updated with the new page
         if (!found)
         {
             int replaceIndex = 0;

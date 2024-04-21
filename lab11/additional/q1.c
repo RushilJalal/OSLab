@@ -59,8 +59,6 @@ void look(int *requests, int num_requests, int head_position)
         }
     }
 
-    i = requests[num_requests - 1];
-
     // move left
     while (i >= 0)
     {
@@ -88,7 +86,7 @@ int main()
     printf("Enter the number of disk requests: ");
     scanf("%d", &num_requests);
 
-    int r[num_requests];
+    int r[num_requests]; // temp array
 
     int *requests = malloc(num_requests * sizeof(int));
 
@@ -117,15 +115,17 @@ int main()
         case 2:
             look(requests, num_requests, head_position);
             break;
+        case -1:
+            printf("Exiting...");
+            break;
         default:
             printf("Invalid choice!\n");
-            break;
         }
 
         // reinitialse r with requests array
         for (int i = 0; i < num_requests; i++)
         {
-            r[i] = requests[i];
+            requests[i] = r[i];
         }
     } while (choice != -1);
 
