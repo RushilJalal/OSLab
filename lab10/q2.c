@@ -25,20 +25,22 @@ int main()
         scanf("%d", &pages[i]);
     }
 
+    // init
     for (i = 0; i < numFrames; i++)
     {
         frames[i] = -1;
         lastUsed[i] = 0;
     }
 
+    // takes a page value, checks each frame
+    // if same page found in a frame, last used of that frame is set to counter + 1
     for (i = 0; i < numPages; i++)
     {
-        int page = pages[i];
         int found = 0;
 
         for (j = 0; j < numFrames; j++)
         {
-            if (frames[j] == page)
+            if (frames[j] == pages[i])
             {
                 found = 1;
                 lastUsed[j] = counter++;
@@ -46,6 +48,7 @@ int main()
             }
         }
 
+        //if not found, least recently used frame is updated with the new page
         if (!found)
         {
             int replaceIndex = 0;
@@ -60,12 +63,12 @@ int main()
                 }
             }
 
-            frames[replaceIndex] = page;
+            frames[replaceIndex] = pages[i];
             lastUsed[replaceIndex] = counter++;
             pageFaults++;
         }
 
-        printf("Page reference: %d\n", page);
+        printf("Page reference: %d\n", pages[i]);
         printf("Frames: ");
         for (k = 0; k < numFrames; k++)
         {

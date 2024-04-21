@@ -3,7 +3,6 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <signal.h>
 #include <stdlib.h>
 
 #define MAXCAPACITY 100
@@ -28,10 +27,8 @@ void *produce(void *arg)
 
 void *consume(void *arg)
 {
-	int citem = 0;
 	sem_wait(&full);
 	sem_wait(&cmutex);
-	citem = buff[out];
 	printf("  Consumed Data = %d\n", buff[out]);
 	out = out % MAXCAPACITY + 1;
 	sem_post(&cmutex);
@@ -41,10 +38,9 @@ void *consume(void *arg)
 
 int main(int argc, const char *argv[])
 {
-	in = 1, out = 1;
 	int i, NumThreads;
-	sem_post(&pmutex);
-	sem_post(&cmutex);
+	sem_init(&pmutex, 0, 1);
+	sem_init(&cmutex, 0, 1);
 	sem_init(&full, 0, 0);
 	sem_init(&empty, 0, MAXCAPACITY);
 
@@ -65,7 +61,7 @@ int main(int argc, const char *argv[])
 	}
 
 	printf("Printing array buff: \n");
-	for (int i = 1; i <= NumThreads; i++)
+	for (i = 1; i <= NumThreads; i++)
 	{
 		printf("%d\n", buff[i]);
 	}

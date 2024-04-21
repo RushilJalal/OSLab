@@ -7,14 +7,13 @@ int available[MAX_RESOURCES];
 int max[MAX_PROCESSES][MAX_RESOURCES];
 int allocation[MAX_PROCESSES][MAX_RESOURCES];
 int need[MAX_PROCESSES][MAX_RESOURCES];
-int finish[MAX_PROCESSES];
 int num_processes;
 int num_resources;
-
 
 int isSafe()
 {
     int work[MAX_RESOURCES];
+    int finish[MAX_PROCESSES];
     int i, j, count = 0;
 
     // Initialize work with available resources
@@ -128,22 +127,20 @@ int main()
 {
     int i, j;
 
-    // Input the number of processes and resources
     printf("Enter the number of processes: ");
     scanf("%d", &num_processes);
 
     printf("Enter the number of resources: ");
     scanf("%d", &num_resources);
 
-    // Input the maximum available resources
-    printf("Enter the maximum available resources for each type:\n");
+    printf("Enter the available resources for each type:\n");
     for (i = 0; i < num_resources; i++)
     {
         printf("Resource %d: ", i);
         scanf("%d", &available[i]);
     }
 
-    // Input the maximum resources that can be allocated to each process
+    // Input max matrix
     printf("Enter the maximum resources for each process:\n");
     for (i = 0; i < num_processes; i++)
     {
@@ -155,7 +152,7 @@ int main()
         }
     }
 
-    // Input the resources currently allocated to each process
+    // Input allocation matrix
     printf("Enter the resources currently allocated to each process:\n");
     for (i = 0; i < num_processes; i++)
     {
