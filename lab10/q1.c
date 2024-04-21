@@ -164,7 +164,7 @@ void optimal(int pages[], int frames[], int num_pages, int num_frames)
     printf("\n");
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
     int num_frames, num_pages;
     printf("Enter number of page frames: ");
