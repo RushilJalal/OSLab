@@ -140,7 +140,7 @@ int predict(int pages[], int frames[], int num_pages, int num_frames, int index)
     for (int i = 0; i < num_frames; i++)
     {
         int j;
-        for (j = 0; i < num_pages; j++)
+        for (j = 0; j < num_pages; j++)
         {
             if (frames[i] == pages[j])
             {
