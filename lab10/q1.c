@@ -12,7 +12,7 @@ int predict(int pages[], int frames[], int num_pages, int num_frames, int index)
     for (int i = 0; i < num_frames; i++)
     {
         int j;
-        for (j = 0; j < num_pages; j++)
+        for (j = index; j < num_pages; j++)
         {
             if (frames[i] == pages[j])
             {
@@ -97,7 +97,7 @@ void fifo(int pages[], int frames[], int num_pages, int num_frames)
     {
         printf("%d  ", frames[i]);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 // pages are replaced which would not be used for the longest duration of time in the future.
@@ -147,9 +147,9 @@ void optimal(int pages[], int frames[], int num_pages, int num_frames)
 
         // print intermediate page table
         printf("After inserting %d: ", pages[i]);
-        for (int i = 0; i < num_frames; i++)
+        for (int k = 0; k < num_frames; k++)
         {
-            printf("%d  ", frames[i]);
+            printf("%d  ", frames[k]);
         }
         printf("\n");
     }
